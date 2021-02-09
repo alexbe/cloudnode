@@ -1,0 +1,15 @@
+salt:
+  config_dir: .
+salt-key:
+  config_dir: .
+salt-cloud:
+  config_dir: .
+salt-master:
+  config_dir: .  
+salt-ssh:
+  config_dir: .
+  log_file: "/home/yourname/salt-ssh/ssh.log"
+  pki_dir: "/home/yourname/salt-ssh/pki"
+  cachedir: "/home/yourname/salt-ssh/cache"
+  roster_file: "/home/yourname/salt-ssh/roster"
+  ssh_wipe: True  

@@ -1,0 +1,17 @@
+root_dir: "/home/yourname/salt-ssh"
+pki_dir: "pki"
+cachedir: "cache"
+log_file: "salt-ssh.log"
+file_roots:
+  base:
+    - salt 
+pillar_roots:
+  base: 
+    - pillar
+nodegroups:
+  rnode: L@10.10.10.10   
+ssh_list_nodegroups:
+  rnode: 
+    - node1
+
+  
