@@ -1,5 +1,9 @@
 #!/bin/bash
 
+rsync --version 2>&1 1>/dev/null || { 
+	echo "rsync is not found, install it properly please" && exit 1 
+}
+
 CD=$(cd `dirname $0` && pwd)
 CFGDIR=$CD/local
 INSTDIR=`realpath ${1:-~/salt-ssh}`
@@ -15,10 +19,12 @@ cat <<THECONTENT > ${CFGDIR}/excl.list && rsync -av --exclude=.git/ --exclude=.g
 .git/
 .gitignore
 local/
+sync.sh
 roster
 Saltfile
 master
-pillar/
+pillar/default.sls
+cloud
 cloud.profiles.d/
 cloud.providers.d/
 pki/
