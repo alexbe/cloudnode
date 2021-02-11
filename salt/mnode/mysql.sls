@@ -14,8 +14,8 @@ salt:
       
 sql_app_user:
   mysql_user.present:
-    - name: {{ pillar['returner_user'] }}
-    - password: {{ pillar['returner_pass'] }}
+    - name: {{ pillar['returner_dbuser'] }}
+    - password: {{ pillar['returner_dbpass'] }}
     - host: '%'
     - use:
       - mysql_database: salt      

@@ -11,7 +11,7 @@ common_packages:
     {% endif %}
     
 include:
-  - mysql
+  - mnode.mysql
 
 grafana_repo:
   pkgrepo.managed:
