@@ -2,10 +2,11 @@
 
 mypy_pkgs:
   pkg.installed:
-    - mariadb-server
-    - python-mysqldb
+    - pkgs:
+      - mariadb-server
+      - python-mysqldb
 {% if grains['os'] == 'Ubuntu' or grains['os'] == 'Debian' %}
-    - debconf-utils
+      - debconf-utils
 {% endif %}
     
 {% if grains['os'] == 'RedHat' or grains['os'] == 'CentOS' %}
@@ -27,6 +28,7 @@ mysql_setup:
 
 mysql:
   service.running:
+    - name: mariadb
     - watch:
       - pkg: mariadb-server
       - file: /etc/mysql/my.cnf
