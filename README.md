@@ -5,8 +5,11 @@ Install
 ------------------
 
 git clone https://github.com/alexbe/cloudnode.git
+
 cd cloudnode/
+
 ./sync.sh
+
 cd ~/salt-ssh
 
 Edit cloud.providers.d/* files
