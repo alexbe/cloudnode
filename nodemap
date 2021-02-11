@@ -1,6 +1,6 @@
 
 # AWS amd64 profile
-ec2_test:
+ec2_east1:
   - mnode1:
       ssh_username: root
       make_master: True
