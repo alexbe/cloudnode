@@ -94,7 +94,7 @@ done
 
 sed -En '/./{H;$!d;};x;/ssh_keyfile:/!d;{s|yourname:ssh-rsa[^"]+|'"$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' $HOME/.ssh/id_rsa.pub)"'|;p}' cloud.profiles.d/gce.conf
 
-[ -z "$(grep ^${INSTDIR} $CFGDIR/installs)" ] && echo ${INSTDIR} >> ${CFGDIR}/installs
+[ -z "$(grep ^${INSTDIR} $CFGDIR/installs 2>/dev/null)" ] && echo ${INSTDIR} >> ${CFGDIR}/installs
 }
 
 
