@@ -4,7 +4,7 @@ mypy_pkgs:
   pkg.installed:
     - pkgs:
       - mariadb-server
-      - python-mysqldb
+      - python3-mysqldb
 {% if grains['os'] == 'Ubuntu' or grains['os'] == 'Debian' %}
       - debconf-utils
 {% endif %}
