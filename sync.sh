@@ -41,7 +41,7 @@ THECONTENT
 
 cat <<THECONTENT > ${INSTDIR}/cloud.profiles.d/gce.conf
 
-$PROV-f1:
+gce-f1:
   #image: ubuntu-minimal-2004-focal-v20210119a 
   image: debian-10-buster-v20210122
   size: f1-micro
