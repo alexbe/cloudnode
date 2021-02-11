@@ -86,7 +86,7 @@ for D in profiles providers
 do
  sed -i "s/\/home\/yourname/${HOME//\//\\/}/" ${INSTDIR}/cloud.${D}.d/*.conf
 done
-for F in Saltfile
+for F in Saltfile master cloud
 do
  sed -i "s/\/home\/yourname/${HOME//\//\\/}/" ${INSTDIR}/$F
 done
