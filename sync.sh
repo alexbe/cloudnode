@@ -84,8 +84,13 @@ THECONTENT
 
 for D in profiles providers
 do
- sed -i "s/\/home\/yourname/${HOME//\//\\/}/" cloud.${D}.d/*.conf
+ sed -i "s/\/home\/yourname/${HOME//\//\\/}/" ${INSTDIR}/cloud.${D}.d/*.conf
 done
+for F in Saltfile
+do
+ sed -i "s/\/home\/yourname/${HOME//\//\\/}/" ${INSTDIR}/$F
+done
+
 
 sed -En '/./{H;$!d;};x;/ssh_keyfile:/!d;{s|yourname:ssh-rsa[^"]+|'"$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' $HOME/.ssh/id_rsa.pub)"'|;p}' cloud.profiles.d/gce.conf
 
