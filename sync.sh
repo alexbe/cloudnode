@@ -59,7 +59,7 @@ gce-f1:
   delete_boot_pd: False
   deploy: True
   make_master: False
-  provider: $PROV    
+  provider: gce   
   ssh_username: $VMUSER
   ssh_keyfile: ${SSHKEY}
 
