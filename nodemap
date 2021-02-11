@@ -1,0 +1,17 @@
+
+# AWS amd64 profile
+ec2_test:
+  - mnode1:
+      ssh_username: root
+      make_master: True
+      master:
+        user: root
+        interface: 0.0.0.0
+
+# Google Cloud f1 size  profile
+gce-f1:
+  - rnode1:
+      minion:
+        log_level: warn
+      grains:
+        minion_state: enabled

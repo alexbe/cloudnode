@@ -8,6 +8,14 @@ CD=$(cd `dirname $0` && pwd)
 CFGDIR=$CD/local
 INSTDIR=`realpath ${1:-~/salt-ssh}`
 
+pubkey_subst()
+{
+ [ -f "${1}" ] && sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' ${1}.pub
+}
+
+
+
+
 install2()
 {
 [ -d "$CFGDIR" ] || ( mkdir "$CFGDIR" && echo "Cfg diectory created" )
@@ -30,6 +38,57 @@ cloud.providers.d/
 pki/
 nodemap
 THECONTENT
+
+cat <<THECONTENT > ${INSTDIR}/cloud.profiles.d/gce.conf
+
+$PROV-f1:
+  #image: ubuntu-minimal-2004-focal-v20210119a 
+  image: debian-10-buster-v20210122
+  size: f1-micro
+  #South Carolina
+  location: us-east1-b
+  network: default
+  subnetwork: default
+  tags: '["salt-created", "free-tier", "us-east1-b"]'
+  metadata: '{"size": "f1-micro",
+   "sshKeys": "$VMUSER:$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' ${SSHKEY}.pub) $VMUSER@somewhere"}'
+  use_persistent_disk: True
+  delete_boot_pd: False
+  deploy: True
+  make_master: False
+  provider: $PROV    
+  ssh_username: $VMUSER
+  ssh_keyfile: ${SSHKEY}
+
+gce-2vCPU4G:
+  #image: ubuntu-minimal-2004-focal-v20210119a 
+  image: debian-10-buster-v20210122
+  size: e2-medium
+  #South Carolina
+  location: us-east1-b
+  network: default
+  subnetwork: default
+  tags: '["salt-created", "free-tier", "us-east1-b"]'
+  metadata: '{"size": "e2-medium", "sshKeys": "$VMUSER:$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' ${SSHKEY}.pub) $VMUSER@somewhere"}'
+  use_persistent_disk: True
+  delete_boot_pd: False
+  deploy: True
+  make_master: False
+  provider: gce    
+  ssh_username: $VMUSER
+  ssh_keyfile: ${SSHKEY}
+  
+THECONTENT
+
+
+
+for D in profiles providers
+do
+ sed -i "s/\/home\/yourname/${HOME//\//\\/}/" cloud.${D}.d/*.conf
+done
+
+sed -En '/./{H;$!d;};x;/ssh_keyfile:/!d;{s|yourname:ssh-rsa[^"]+|'"$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' $HOME/.ssh/id_rsa.pub)"'|;p}' cloud.profiles.d/gce.conf
+
 [ -z "$(grep ^${INSTDIR} $CFGDIR/installs)" ] && echo ${INSTDIR} >> ${CFGDIR}/installs
 }
 
