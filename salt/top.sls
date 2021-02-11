@@ -1,7 +1,7 @@
 base:
   '*':
-	- lowmem
-	- sysuser
+    - lowmem
+    - sysuser
   'rnode*'
     - rnode
   'mnode*'
