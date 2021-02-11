@@ -39,7 +39,7 @@ pki/
 nodemap
 THECONTENT
 
-SSHKEY=$(ls -1 $HOME/.ssh/id_{rsa,ed25519}|tail -n1)
+SSHKEY=$(ls -1 $HOME/.ssh/id_{rsa,ed25519} 2>/dev/null|tail -n1)
 VMUSER=$USER
 
 cat <<THECONTENT > ${INSTDIR}/cloud.profiles.d/gce.conf
