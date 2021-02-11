@@ -39,6 +39,9 @@ pki/
 nodemap
 THECONTENT
 
+SSHKEY=$(ls -1 $HOME/.ssh/id_{rsa,ed25519}|tail -n1)
+VMUSER=$USER
+
 cat <<THECONTENT > ${INSTDIR}/cloud.profiles.d/gce.conf
 
 gce-f1:
@@ -92,7 +95,7 @@ do
 done
 
 
-sed -En '/./{H;$!d;};x;/ssh_keyfile:/!d;{s|yourname:ssh-rsa[^"]+|'"$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' $HOME/.ssh/id_rsa.pub)"'|;p}' cloud.profiles.d/gce.conf
+#sed -En '/./{H;$!d;};x;/ssh_keyfile:/!d;{s|yourname:ssh-rsa[^"]+|'"$(sed -E 's/^([a-z-]+)\s([^ ]+)\s.+$/\1 \2/' $HOME/.ssh/id_rsa.pub)"'|;p}' cloud.profiles.d/gce.conf
 
 [ -z "$(grep ^${INSTDIR} $CFGDIR/installs 2>/dev/null)" ] && echo ${INSTDIR} >> ${CFGDIR}/installs
 }
