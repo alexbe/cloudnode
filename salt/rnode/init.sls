@@ -169,12 +169,6 @@ build_tools:
     - cwd: /home/{{ pillar['sysuser'] }}/{{ pillar['rnode']['git'] }}/tools  
     - runas: {{ pillar['sysuser'] }}
 
-build_tools:  
-  cmd.run:
-    - name: cargo update && cargo build --release 
-    - cwd: /home/{{ pillar['sysuser'] }}/{{ pillar['rnode']['git'] }}/tools  
-    - runas: {{ pillar['sysuser'] }}
-
 put_deploy_script:
   file.managed:
     - name: {{ pillar['rnode']['instdir'] }}/deploy.sh
