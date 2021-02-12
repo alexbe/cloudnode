@@ -2,10 +2,8 @@ sysuser:
   user.present:
     - name: {{ pillar['sysuser'] }}
     - fullname: Abu Abed
-    - shell: /bin/zsh
-    - home: /home/fred
+    - shell: /bin/bash
     - uid: {{ pillar['sysuser_id'] }}
-    - gid: {{ pillar['sysgroup_id'] }}
     - groups:
     {% if grains['os'] == 'RedHat' or grains['os'] == 'CentOS' %}
       - wheel
