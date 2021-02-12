@@ -16,7 +16,14 @@ sql_app_user:
     - name: {{ pillar['returner_dbuser'] }}
     - password: {{ pillar['returner_dbpass'] }}
     - host: '%'
-    
+
+flush_privs:
+  mysql_query.run:
+    - connection_user: root
+    - connection_pass: {{ pillar['mysql_root_pw'] }}
+    - connection_charset: utf8  
+    - query: "FLUSH PRIVILEGES;"
+
 sql_app_user_grants:
   mysql_grants.present:
     - connection_user: root
@@ -25,7 +32,10 @@ sql_app_user_grants:
     - grant: all privileges
     - database: salt.*
     - user: {{ pillar['returner_dbuser'] }} 
-    
+    - require:
+      - sql_app_user
+      - flush_privs
+  
 sql_app_db:
   mysql_database.present:
     - name: {{ pillar['returner_db'] }}
