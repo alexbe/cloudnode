@@ -1,6 +1,6 @@
 
 
-mypkg:
+mariadbpkg:
   pkg.installed:
     - pkgs:
       - mariadb-server
@@ -26,12 +26,19 @@ mysql_setup:
 
 {% endif %}
 
+/etc/mysql/my.cnf:
+  file:
+    - managed
 
 mysql:
-  service.running:
+  service:
     - name: mariadb
+    - running
+    - enable: True
+    - restart: True
+    - require:
+      - mariadbpkg 
     - watch:
-      - pkg: mariadb-server
       - file: /etc/mysql/my.cnf
 
 
