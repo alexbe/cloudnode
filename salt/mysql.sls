@@ -22,7 +22,7 @@ mysql_setup:
         'mysql-server/root_password': {'type': 'password', 'value': '{{ salt['pillar.get']('mysql_root_pw', '') }}' }
         'mysql-server/root_password_again': {'type': 'password', 'value': '{{ salt['pillar.get']('mysql_root_pw', '') }}' }
     - require:
-      - pkg: debconf-utils
+      - debconfpkg
 
 {% endif %}
 
