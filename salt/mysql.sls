@@ -1,19 +1,20 @@
 
 
-mypy_pkgs:
+mypkg:
   pkg.installed:
     - pkgs:
       - mariadb-server
-      - python3-mysqldb
-{% if grains['os'] == 'Ubuntu' or grains['os'] == 'Debian' %}
-      - debconf-utils
-{% endif %}
-    
+
 {% if grains['os'] == 'RedHat' or grains['os'] == 'CentOS' %}
 
 
 {% elif grains['os'] == 'Ubuntu' or grains['os'] == 'Debian' %}
 
+debconfpkg:
+  pkg.installed:
+    - pkgs:
+      - debconf-utils
+      
 mysql_setup:
   debconf.set:
     - name: mariadb-server

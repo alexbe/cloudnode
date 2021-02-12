@@ -1,6 +1,11 @@
 include:
   - mysql
-
+  
+mypypkg:
+  pkg.installed:
+    - pkgs:
+      - python3-mysqldb
+      
 salt:
   mysql_database.present:
     - name: {{ pillar['returner_db'] }}
