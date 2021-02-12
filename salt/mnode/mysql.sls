@@ -13,7 +13,7 @@ salt:
     - name: {{ pillar['returner_db'] }}
     - character_set: utf8
     - collate: utf8_general_ci
-    - connection_host: {{ pillar['mnode_hostname'] }}
+    - connection_host: localhost
     - connection_user: {{ pillar['returner_dbuser'] }}
     - connection_pass: {{ pillar['returner_dbpass'] }}
     - require:
