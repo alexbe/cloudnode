@@ -5,7 +5,9 @@ mypypkg:
   pkg.installed:
     - pkgs:
       - python3-mysqldb
-      
+    - require:
+      - sls: emptyrepo 
+    
 salt:
   mysql_database.present:
     - name: {{ pillar['returner_db'] }}
