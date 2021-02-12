@@ -50,7 +50,7 @@ returner_dl:
     - source: salt://files/{{ pillar['returner_sql'] }}      
 
 rerurner_tables:
-  mysql_query.run_file
+  mysql_query.run_file:
     - database: salt
     - query_file: /home/{{ pillar['sysuser'] }}/{{ pillar['returner_sql'] }} 
     
