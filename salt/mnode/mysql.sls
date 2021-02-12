@@ -7,8 +7,26 @@ mypypkg:
       - python3-mysqldb
     - require:
       - sls: emptyrepo 
+         
+sql_app_user:
+  mysql_user.present:
+    - connection_user: root
+    - connection_pass: {{ pillar['mysql_root_pw'] }}
+    - connection_charset: utf8
+    - name: {{ pillar['returner_dbuser'] }}
+    - password: {{ pillar['returner_dbpass'] }}
+    - host: '%'
     
-salt:
+sql_app_user_grants:
+  mysql_grants.present:
+    - connection_user: root
+    - connection_pass: {{ pillar['mysql_root_pw'] }}
+    - connection_charset: utf8  
+    - grant: all privileges
+    - database: salt.*
+    - user: {{ pillar['returner_dbuser'] }} 
+    
+sql_app_db:
   mysql_database.present:
     - name: {{ pillar['returner_db'] }}
     - character_set: utf8
@@ -17,15 +35,8 @@ salt:
     - connection_user: {{ pillar['returner_dbuser'] }}
     - connection_pass: {{ pillar['returner_dbpass'] }}
     - require:
-      - mysql
-      
-sql_app_user:
-  mysql_user.present:
-    - name: {{ pillar['returner_dbuser'] }}
-    - password: {{ pillar['returner_dbpass'] }}
-    - host: '%'
-    - use:
-      - mysql_database: salt      
+      - sql_app_user
+      - sql_app_user_grants
       
 returner_dl:
   file.managed:
