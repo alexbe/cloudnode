@@ -1,16 +1,18 @@
-{% if grains['os'] == 'Ubuntu' and grains['oscodename'] == 'focal' %}
+
+
+{% if grains['os_family'] == 'Debian' %}
     
-cleanrepo:
+saltrepo_clean:
   file.absent:
     - name: /etc/apt/sources.list.d/saltstack.list
     
-buggyrepo:
+saltrepo_setup:
   pkgrepo.managed:
     - humanname: saltstack
-    - name: deb https://repo.saltstack.com/apt/ubuntu/20.04/amd64/latest focal main
+    - name: deb http://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ grains['osrelease'] }}/amd64/latest {{ grains['oscodename'] }} main
+    - key_url: https://repo.saltstack.com/py3/{{ grains['os']|lower }}/{{ grains['osrelease'] }}/amd64/latest/SALTSTACK-GPG-KEY.pub
     - file: /etc/apt/sources.list.d/saltstack.list
     - clean_file: True
-    - disabled: True
-    - refresh: True
+    - refresh: True    
 
 {% endif %}

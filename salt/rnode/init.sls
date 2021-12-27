@@ -85,19 +85,16 @@ addpkgs:
       - tcpdump
       - jq
 
+{% if grains['rnodebuild_allow'] == True %}
 
 get_rust:
   cmd.run:
     - name: su - -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' {{ pillar['sysuser'] }}
     - cwd: /home/{{ pillar['sysuser'] }}
-#    - require:
-#      - updateme          
 
 cargo_fix:
   cmd.run:
     - name: su - -c 'rustup uninstall stable && rustup install stable' {{ pillar['sysuser'] }}
-#    - prepend_path: /home/{{ pillar['sysuser'] }}/.cargo/bin
-
 
 node_app:
   git.latest:
@@ -127,9 +124,6 @@ rnodeconf:
     - user: {{ pillar['sysuser'] }}
 
 
-#gitprep:
-#  cmd.run:
-#    - name: su - -c "cd {{ pillar['rnode']['git'] }}/ton-node && git submodule init && git submodule update" {{ pillar['sysuser'] }}
 gitprep:
   cmd.run:
     - name: id && pwd && git submodule init && git submodule update 
@@ -177,9 +171,36 @@ deploy:
   file.copy:
     - source: {{ pillar['rnode']['instdir'] }}/setup/ton-node.service
     - mode: 755
-    
 
-    
+rnodebuild_allow:
+  grains.present:
+    - value: False
+
+{% endif %}#### rnodebuild_allow == True
+
+rest_pkgs:
+  pkg.installed:
+    - pkgs:
+      - salt-minion
+    - require:
+      - sls: emptyrepo
+
+
+master_ip:
+  cmd.run:
+    - name: grep salt /etc/hosts || echo {{ pillar['mnode_ip'] }} salt >> /etc/hosts 
+
+salt-minion:
+  service:
+    - running
+    - enable: True
+    - restart: True
+    - require:
+      - rest_pkgs
+    - watch:
+      - file: /etc/salt/minion
+
+
 #linknode:
 #  file.hardlink:
 #    - name: /home/{{ pillar['sysuser'] }}/{{ pillar['rnode']['git'] }}/ton-node/target/release/ton_node

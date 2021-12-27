@@ -31,3 +31,9 @@ rest_pkgs:
   pkg.installed:
     - pkgs:
       - grafana
+      - salt-master
+      - salt-ssh
+      - salt-api
+      
+      
+      
